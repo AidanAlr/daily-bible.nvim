@@ -1,6 +1,7 @@
 # daily-bible.nvim
 
-![Example with alpha-nvim](./example-dashboard.png)
+![Basic example dashboard with alpha-nvim](./basic-example-dashboard.png)
+![Example with ASCII art with alpha-nvim](./example-dashboard.png)
 
 Neovim plugin that displays a daily bible verse.
 
@@ -62,14 +63,60 @@ To run in command mode, use
 lua require('dailybible').show_verse()
 ```
 
+## Dashboard Integratoin
+
 daily-bible.nvim is compatible with your favorite dashboard plugin.
-Configuring with[alpha-nvim](https://github.com/goolord/alpha-nvim) as seen in the example screenshot can be done via the following:
+Configuring with [alpha-nvim](https://github.com/goolord/alpha-nvim)
+
+### alpha-nvim basic configuration
 
 ```lua
 return {
   "goolord/alpha-nvim",
   event = "VimEnter",
-  dependencies = { "RchrdAriza/nvim-web-devicons", "echasnovski/mini.icons", "AidanAlr/daily-bible.nvim" },
+  dependencies = {
+    "RchrdAriza/nvim-web-devicons",
+    "echasnovski/mini.icons",
+    "AidanAlr/daily-bible.nvim"
+  },
+  config = function()
+    local alpha = require("alpha")
+    local dashboard = require("alpha.themes.dashboard")
+    local dailybible = require("dailybible")
+
+    -- Create empty header table
+    header = {}
+
+    -- Add the Bible verse
+    local verse = dailybible.get_verse()
+    local centered_verse = dailybible.center_text(verse.text, verse.verse, 52, 8, 52)
+    for _, line_text in pairs(centered_verse) do
+      table.insert(header, line_text)
+    end
+
+    -- Set the header
+    dashboard.section.header.val = header
+
+    -- Send config to alpha
+    alpha.setup(dashboard.opts)
+
+    -- Disable folding on alpha buffer
+    vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
+  end,
+}
+```
+
+### alpha-nvim with ASCII art
+
+```lua
+return {
+  "goolord/alpha-nvim",
+  event = "VimEnter",
+  dependencies = {
+    "RchrdAriza/nvim-web-devicons",
+    "echasnovski/mini.icons",
+    "AidanAlr/daily-bible.nvim"
+  },
   config = function()
     local alpha = require("alpha")
     local dashboard = require("alpha.themes.dashboard")
