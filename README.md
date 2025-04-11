@@ -76,7 +76,7 @@ return {
     local dailybible = require("dailybible")
 
     -- ASCII image in header
-    local header_lines = {
+    local header_image_lines = {
       [[⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⠀]],
       [[  ⣠⡄⠀⠀⣀⡴⠞⠉⢉⡇⠀⠀⠀⠀]],
       [[⢯⣠⡴⠟⠋⣙⣦⡠⢤⡀⠀⠀⠀⠀⠀⠀]],
@@ -92,7 +92,7 @@ return {
     -- Create empty header table
     header = {}
 
-    -- Function to center text
+    -- Function to center image lines
     local function centerHeaderLine(text, width)
       local text_width = vim.fn.strdisplaywidth(text)
       local padding = math.floor((width - text_width) / 2)
@@ -100,7 +100,7 @@ return {
     end
 
     -- Center each line of the ASCII art with the same width (52) used for the verse
-    for _, line in ipairs(header_lines) do
+    for _, line in ipairs(header_image_lines) do
       table.insert(header, centerHeaderLine(line, 52))
     end
 
