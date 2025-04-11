@@ -75,11 +75,6 @@ return {
     local dashboard = require("alpha.themes.dashboard")
     local dailybible = require("dailybible")
 
-    local time = os.date("%H:%M")
-    local date = os.date("%a %d %b")
-    local v = vim.version()
-    local version = " v" .. v.major .. "." .. v.minor .. "." .. v.patch
-
     -- ASCII image in header
     local header_lines = {
       [[⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⠀]],
@@ -109,14 +104,21 @@ return {
       table.insert(header, centerHeaderLine(line, 52))
     end
 
-    -- Now add the Bible verse as before
+    -- Add the Bible verse
     local verse = dailybible.get_verse()
     local centered_verse = dailybible.center_text(verse.text, verse.verse, 52, 8, 52)
     for _, line_text in pairs(centered_verse) do
       table.insert(header, line_text)
     end
 
+    -- Set the header
     dashboard.section.header.val = header
+
+    -- Additional footer
+    local time = os.date("%H:%M")
+    local date = os.date("%a %d %b")
+    local v = vim.version()
+    local version = " v" .. v.major .. "." .. v.minor .. "." .. v.patch
 
     function centerText(text, width)
       local totalPadding = width - #text
@@ -139,7 +141,6 @@ return {
     vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
   end,
 }
-
 ```
 
 ## Credits to the following plugins
