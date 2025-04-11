@@ -114,26 +114,6 @@ return {
     -- Set the header
     dashboard.section.header.val = header
 
-    -- Additional footer
-    local time = os.date("%H:%M")
-    local date = os.date("%a %d %b")
-    local v = vim.version()
-    local version = " v" .. v.major .. "." .. v.minor .. "." .. v.patch
-
-    function centerText(text, width)
-      local totalPadding = width - #text
-      local leftPadding = math.floor(totalPadding / 2)
-      local rightPadding = totalPadding - leftPadding
-      return string.rep(" ", leftPadding) .. text .. string.rep(" ", rightPadding)
-    end
-
-    dashboard.section.footer.val = {
-      centerText("You got this!", 50),
-      centerText(date, 50),
-      centerText(time, 50),
-      centerText(version, 50),
-    }
-
     -- Send config to alpha
     alpha.setup(dashboard.opts)
 
